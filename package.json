@@ -6,10 +6,9 @@
   "scripts": {
     "test": "nyc mocha",
     "lint-all": "eslint \"server/**/*.js\" app.js",
-    "start:serve": "nodemon -x \"node -r dotenv/config ./node_modules/babel-cli/bin/babel-node ./server/www.js\"",
-    "start2": "nodemon -r dotenv/config server/bin/bootstrap",
-    "server": "babel-node server/app.js",
-    "heroku:start": "babel-node server/app.js"
+    "start:serve": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
+    "server": "node -r dotenv/config -r babel-register server/www.js",
+    "heroku:start": "node -r babel-register ./server/www.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +24,6 @@
   },
   "homepage": "https://github.com/DinmaOtutu/RIDE-MY-WAY#readme",
   "devDependencies": {
-    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "coveralls": "^3.0.1",
@@ -44,6 +42,7 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-register": "^6.26.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",

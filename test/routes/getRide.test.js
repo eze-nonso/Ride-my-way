@@ -64,7 +64,7 @@ describe('Tests for get single ride offer - GET /api/v1/rides/:rideId', () => {
           return { json() {} };
         },
       };
-
+      // fake function you can monitor
       const next = sinon.fake();
 
       getRideController(req, res, next);
