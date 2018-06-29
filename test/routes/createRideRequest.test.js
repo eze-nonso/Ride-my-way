@@ -116,7 +116,7 @@ describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', ()
   });
 
   describe('Test for request ride controller', () => {
-    it('Should call next if request param is not of type "string"', () => {
+    it('Should call next if request param is not of type "number"', () => {
       const req = {
         params: {
           rideId: 'badParam',
