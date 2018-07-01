@@ -1,11 +1,14 @@
 import { Pool } from 'pg';
 
-const config = {
-  user: 'postgres',
-  database: 'ride-my-way_dev',
-  password: 'dinma1995',
-  max: 10,
+import config from './config.json';
+
+const env = process.env.NODE_ENV;
+
+const connectionString = config[env].use_env_variable;
+
+const database = {
+  connectionString,
 };
 
-export default new Pool(config);
+export default new Pool(database);
 

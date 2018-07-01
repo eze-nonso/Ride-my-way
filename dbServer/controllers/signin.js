@@ -13,7 +13,7 @@ export default (req, res) => {
   db.query(query, (error, response) => {
     if (error) throw error;
     const user = response.rows[0];
-    if (!user) {
+    if (!response.rows.length) {
       return res.status(401).send({
         message: 'Invalid email',
       });

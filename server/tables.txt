@@ -1,0 +1,11 @@
+tables: 
+  USERS
+  RIDES
+  REQUESTS
+
+users.hasMany(rides);
+users.hasMany(requests);
+rides.belongsTo(users);
+rides.hasMany(requests);
+requests.belongsTo(rides);
+requests.belongsTo(users);

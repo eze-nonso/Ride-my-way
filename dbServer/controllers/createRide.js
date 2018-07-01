@@ -1,41 +1,34 @@
-import rideOffers from '../model/rideOffers';
+import db from '../db';
 
 export default (req, res) => {
-  const type = (param, typeOf) => {
-    if (typeof param !== typeOf) {
-      throw Error(`${param} should be type ${typeOf}`);
-    }
-    return true;
-  };
-
   const {
     body: {
-      driverName, destination, depart, date,
+      stateFrom, cityFrom,
+      stateTo, cityTo,
+      price, departureDate,
+      departureTime, pickup,
     },
+    decoded: { payload: { id } },
   } = req;
 
-  try {
-    type(driverName, 'string');
-    type(destination, 'string');
-    type(depart, 'string');
-    type(date, 'string');
-  } catch (e) {
-    return res.status(400).json({
-      message: e.message,
-    });
-  }
-
-  const newOffer = {
-    id: rideOffers.length + 1,
-    driverName,
-    destination,
-    depart,
-    date,
+  const query = {
+    text: `insert into rides (
+      state_from, city_from, state_to,
+      city_to, price, departure_date,
+      departure_time, pickup, user_id
+      ) 
+      values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    values: [
+      stateFrom, cityFrom, stateTo,
+      cityTo, price, departureDate,
+      departureTime, pickup, id,
+    ],
   };
 
-  rideOffers.push(newOffer);
-
-  return res.status(201).json({
-    newOffer,
+  db.connect((error, client, done) => {
+    if (error) throw error;
+    client.query(query, (error2, response2) => {
+      if (error2) throw error2;
+    });
   });
 };

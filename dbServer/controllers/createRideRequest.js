@@ -1,56 +1,44 @@
-import rideRequests from '../model/rideRequests';
-
-import rideOffers from '../model/rideOffers';
+import db from '../db';
 
 export default (req, res, next) => {
   if (!+req.params.rideId) {
     return next('route');
   }
-  const type = (param, typeOf) => {
-    if (typeof param !== typeOf) {
-      throw Error(`${param} should be type ${typeOf}`);
-    }
-    return true;
-  };
-
   const rideId = parseInt(req.params.rideId, 10);
 
   const {
-    body: {
-      destination,
-      depart, date,
+    decoded: {
+      payload: { id },
     },
   } = req;
 
-  try {
-    type(destination, 'string');
-    type(depart, 'string');
-    type(date, 'string');
-  } catch (e) {
-    return res.status(400).json({
-      message: e.message,
-    });
-  }
-
-  const rideOffer = rideOffers.find(ride => ride.id === rideId);
-
-  if (rideOffer) {
-    const newRequest = {
-      destination,
-      depart,
-      date,
-      id: rideRequests.length + 1,
-      offerId: rideId,
+  db.connect((error, client, done) => {
+    if (error) throw error;
+    const query = {
+      text: 'select * from rides where rides.id = $1',
+      values: [rideId],
     };
 
-    rideRequests.push(newRequest);
+    client.query(query, (error1, response1) => {
+      if (error1) throw error1;
+      if (!response1.rows.length) {
+        const errorNoRide = Error(`Ride ${rideId} does not exist`);
+        errorNoRide.status = 400;
+        throw errorNoRide;
+      }
+      const query2 = {
+        text: 'insert into requests (user_id, ride_id) values($1, $2)',
+        values: [id, rideId],
+      };
 
-    return res.status(201).json({
-      newRequest,
+      client.query(query2, (error2, response2) => {
+        done();
+        if (error2) throw error2;
+        const rideOffer = response2.rows[0];
+        return res.status(200).send({
+          ride: rideOffer,
+        });
+      });
     });
-  }
-
-  return res.status(400).json({
-    message: 'Ride not available',
   });
 };
