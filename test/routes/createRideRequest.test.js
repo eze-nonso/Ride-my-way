@@ -48,7 +48,7 @@ const api = `/api/${process.env.VERSION}`;
 describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', () => {
   it('Expect status 201 and return created resource', (done) => {
     chai.request(app)
-      .post(`${api}/rides/2/request`)
+      .post(`${api}/rides/2/requests`)
       .send(newRequest)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -62,7 +62,7 @@ describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', ()
   describe('Validation tests', () => {
     it('Should return status 400 for invalid "destination" data type', (done) => {
       chai.request(app)
-        .post(`${api}/rides/2/request`)
+        .post(`${api}/rides/2/requests`)
         .send(badRequest)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -75,7 +75,7 @@ describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', ()
 
     it('Should return status 400 for invalid "depart" data type', (done) => {
       chai.request(app)
-        .post(`${api}/rides/2/request`)
+        .post(`${api}/rides/2/requests`)
         .send(badRequest2)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -88,7 +88,7 @@ describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', ()
 
     it('Should return status 400 for invalid "date" data type', (done) => {
       chai.request(app)
-        .post(`${api}/rides/2/request`)
+        .post(`${api}/rides/2/requests`)
         .send(badRequest3)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -103,7 +103,7 @@ describe('Tests for request ride route - POST /api/v1/rides/:rideId/request', ()
   describe('Tests for invalid request', () => {
     it('Should return status 400 for non-existent ride offer request', (done) => {
       chai.request(app)
-        .post(`${api}/rides/222/request`)
+        .post(`${api}/rides/222/requests`)
         .send(newRequest)
         .end((err, res) => {
           if (err) return done(err);
