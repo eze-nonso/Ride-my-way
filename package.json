@@ -6,9 +6,9 @@
   "scripts": {
     "test": "nyc mocha",
     "lint-all": "eslint \"server/**/*.js\" app.js",
-    "start:serve": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
+    "start:serve": "npm run migrate && nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
     "server": "node -r dotenv/config -r babel-register server/www.js",
-    "heroku:start": "node -r babel-register ./server/www.js"
+    "migrate": "node -r babel-register -r dotenv/config dbServer/models"
   },
   "repository": {
     "type": "git",

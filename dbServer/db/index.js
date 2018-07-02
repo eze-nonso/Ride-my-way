@@ -4,11 +4,11 @@ import config from './config.json';
 
 const env = process.env.NODE_ENV;
 
-const connectionString = config[env].use_env_variable;
-
 const database = {
-  connectionString,
+  connectionString: process.env[config[env].use_env_variable],
 };
 
-export default new Pool(database);
+const db = new Pool(database);
+
+export default db;
 

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export default {
+const auth = {
   authenticate(user) {
     const token = jwt.sign({
       id: user.id,
@@ -28,16 +28,16 @@ export default {
   verifyTokenMware(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(403).send({
-        msg: 'No token',
-      });
+      const tokenError = Error('No token');
+      tokenError.status = 403;
+      throw tokenError;
     }
-    const decoded = this.verifyToken(token);
+    const decoded = auth.verifyToken(token);
 
     if (decoded.error) {
-      return res.status(401).send({
-        msg: decoded.error,
-      });
+      const tokenError = Error(decoded.error);
+      tokenError.status = 401;
+      throw tokenError;
     }
 
     req.decoded = decoded;
@@ -45,3 +45,4 @@ export default {
   },
 };
 
+export default auth;

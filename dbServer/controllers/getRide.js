@@ -9,13 +9,13 @@ export default (req, res, next) => {
     text: 'select * from rides',
   };
   return db.query(query, (error, response) => {
-    if (error) throw error;
+    if (error) return next(error);
     const rides = response.rows;
     const rideOffer = rides.find(ride => ride.id === rideId);
     if (!rideOffer) {
-      return res.status(400).json({
-        message: 'Cannot get ride request',
-      });
+      const notFound = Error('Requested resource not found');
+      notFound.status = 404;
+      return next(notFound);
     }
     return res.status(200).json({
       ride: rideOffer,
