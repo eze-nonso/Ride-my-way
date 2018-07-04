@@ -6,9 +6,8 @@
   "scripts": {
     "test": "nyc mocha",
     "lint-all": "eslint \"server/**/*.js\" app.js",
-    "start:serve": "npm run migrate && nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
-    "server": "node -r dotenv/config -r babel-register server/www.js",
-    "migrate": "node -r babel-register -r dotenv/config dbServer/models"
+    "start:serve": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
+    "server": "node -r dotenv/config -r babel-register server/www.js"
   },
   "repository": {
     "type": "git",
@@ -49,6 +48,7 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "pg": "^7.4.3",
+    "socket.io": "^2.1.1",
     "source-map": "^0.7.3"
   }
 }

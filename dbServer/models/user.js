@@ -13,7 +13,8 @@ export default (db, callback) => {
       password VARCHAR not null,
       city VARCHAR not null,
       state VARCHAR not null,
-      car_id INT references cars(id) on update cascade on delete set null
+      car_id INT references cars(id) on update cascade on delete set null,
+      unique(firstname, lastname)
     )`,
   };
 

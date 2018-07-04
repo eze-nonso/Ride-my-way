@@ -6,7 +6,7 @@ export default (req, res, next) => {
   }
   const rideId = +req.params.rideId;
   const query = {
-    text: 'select * from rides',
+    text: 'select * from rides where rides.user_id is not null',
   };
   return db.query(query, (error, response) => {
     if (error) return next(error);
