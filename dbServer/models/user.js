@@ -13,19 +13,24 @@ export default (db, callback) => {
       password VARCHAR not null,
       city VARCHAR not null,
       state VARCHAR not null,
-      car_id INT references cars(id) on update cascade on delete set null,
-      unique(firstname, lastname)
+      car_id INT references cars(id) on update cascade on delete set null
     )`,
   };
 
   db.connect((error, client, done) => {
-    if (error) throw error;
+    if (error) {
+      done();
+      throw error;
+    }
     client.query(citextExt, (error2) => {
-      if (error2) throw error2;
+      if (error2) {
+        done();
+        throw error2;
+      }
       client.query(query, (error3) => {
         done();
         if (error3) throw error3;
-        if (callback) callback();
+        if (callback && typeof callback === 'function') callback();
       });
     });
   });

@@ -22,17 +22,25 @@ const runModels = callback =>
   });
 
 const asyncWrapper = {
-  connect: (...args) => {
-    const queryCallback = () => db.connect(...args);
-    if (asyncWrapper.calledOnce) return queryCallback();
-    asyncWrapper.calledOnce = true;
-    return runModels(queryCallback);
+  connect: (callback) => {
+    const queryCallback = () => db.connect(callback);
+    asyncWrapper.tablesCreated((error) => {
+      if (error) return runModels(queryCallback);
+      return queryCallback();
+    });
   },
-  query: (...args) => {
-    const queryCallback = () => db.query(...args);
-    if (asyncWrapper.calledOnce) return queryCallback();
-    asyncWrapper.calledOnce = true;
-    return runModels(queryCallback);
+  query: (queryObj, callback2, callback) => {
+    const queryCallback = () => db.query(queryObj, callback2, callback);
+    asyncWrapper.tablesCreated((error) => {
+      if (error) return runModels(queryCallback);
+      return queryCallback();
+    });
+  },
+  tablesCreated: (callback) => {
+    db.query('select from requests', (error) => {
+      if (error) return callback(error);
+      return callback();
+    });
   },
 };
 

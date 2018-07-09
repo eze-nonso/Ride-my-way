@@ -19,4 +19,24 @@ app.get('/', (req, res) => {
   res.redirect(`api/${process.env.VERSION}`);
 });
 
+app.use((req, res) => {
+  res.status(404).send({
+    status: 'error',
+    data: {
+      message: 'Page not found',
+    },
+  });
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+  res.status(500).send({
+    status: error,
+    data: {
+      message: `Don't be alarmed...
+      The server just crashed. I will fix it ASAP`,
+    },
+  });
+});
+
 export default app;

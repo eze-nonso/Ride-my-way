@@ -6,7 +6,7 @@ export default (error, req, res, next) => {
   }
   return !error.errors
     ? res.status(error.status || 500).send({
-      message: error.message,
+      message: error.stack,
       serverError: !error.status && error,
     })
     : res.status(422).send({

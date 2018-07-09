@@ -4,15 +4,14 @@ import auth from '../middlewares/auth';
 
 import encrypt from '../middlewares/encrypt';
 
-import validators from '../middlewares/validators';
-
-const signInData = [
-  'email', 'password',
-];
-
-
 export default [
-  validators.notNull(...signInData),
+  (req, res, next) => {
+    req.validateBody('email')();
+    req.validateBody('notEmpty')('password', 'email');
+    req.validateBody('notEmptyString')('password', 'email');
+    req.validateBody('type', 'password')(req.body.password);
+    return req.sendErrors(next);
+  },
   (req, res, next) => {
     const query = {
       text: 'select id, firstname, lastname, email, password from users where email = $1 LIMIT 1',
