@@ -6,7 +6,7 @@ export default (req, res, next) => {
   }
   const { decoded: { payload: { id: userId } }, params: { rideId } } = req;
   return db.connect((error, client, done) => {
-    if (error) return done(next(error));
+    if (error) return next(error);
     const ownsRide = {
       text: 'select * from rides where rides.id = $1::int and rides.user_id = $2::int',
       values: [rideId, userId],

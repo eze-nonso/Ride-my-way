@@ -13,7 +13,7 @@ export default (req, res, next) => {
   } = req;
 
   return db.connect((error, client, done) => {
-    if (error) return done(next(error));
+    if (error) return next(error);
     const query = {
       text: `select * from rides where rides.id = $1 and
       rides.user_id != $2 LIMIT 1`,

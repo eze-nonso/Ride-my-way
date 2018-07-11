@@ -28,7 +28,7 @@ export default [
       values: [req.body.carModel, req.body.carMake],
     };
     db.connect((error, client, done) => {
-      if (error) return done(next(error));
+      if (error) return next(error);
       return client.query(notUnique, (error1, res1) => {
         if (error1) return done(next(error1));
         if (res1.rows.length) {

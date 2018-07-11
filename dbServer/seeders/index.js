@@ -104,7 +104,7 @@ export default class Seeder {
     };
 
     db.connect((error, client, done) => {
-      if (error) return done(callback(error));
+      if (error) return callback(error);
       return client.query(populateCars, (error1) => {
         if (error1) return done(callback(error1));
         return client.query(populateUsers, (error2) => {
@@ -124,7 +124,7 @@ export default class Seeder {
 
   static delete(callback) {
     db.connect((error, client, done) => {
-      if (error) return done(callback(error));
+      if (error) return callback(error);
       return client.query('delete from requests cascade', (error1) => {
         if (error1) return done(callback(error1));
         return client.query('delete from rides cascade', (error2) => {
@@ -156,7 +156,7 @@ export default class Seeder {
 
   static drop(callback) {
     db.connect((error, client, done) => {
-      if (error) return done(callback(error));
+      if (error) return callback(error);
       return client.query('drop table requests cascade', (error1) => {
         if (error1) return done(callback(error1));
         return client.query('drop table rides cascade', (error2) => {

@@ -11,6 +11,6 @@ export default (db, callback) => {
 
   db.query(query, (error) => {
     if (error) throw error;
-    if (callback) callback();
+    if (callback && typeof callback === 'function') callback();
   });
 };

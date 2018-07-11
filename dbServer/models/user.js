@@ -18,10 +18,7 @@ export default (db, callback) => {
   };
 
   db.connect((error, client, done) => {
-    if (error) {
-      done();
-      throw error;
-    }
+    if (error) throw error;
     client.query(citextExt, (error2) => {
       if (error2) {
         done();
