@@ -2,8 +2,6 @@ import controllers from '../../controllers';
 
 import auth from '../../middlewares/auth';
 
-import encrypt from '../../middlewares/encrypt';
-
 import errorHandler from '../../middlewares/errorHandler';
 
 import validators from '../../middlewares/validators';
@@ -23,7 +21,7 @@ export default (app) => {
       message: 'Welcome to ride-my-way',
     }));
 
-  app.post('/api/v1/auth/signup', encrypt.hash, signup);
+  app.post('/api/v1/auth/signup', signup);
 
   app.post('/api/v1/auth/login', signin);
 

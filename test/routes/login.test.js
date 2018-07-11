@@ -50,7 +50,7 @@ describe('Tests for login route - /api/version/auth/login', () => {
     it('Should return 401 on request with wrong password', (done) => {
       chai.request(app)
         .post(`${api}/auth/login`)
-        .send({ email, password: 'invalid' })
+        .send({ email, password: 'invalid23' })
         .end((error, res) => {
           if (error) return done(error);
           expect(res).to.have.status(401);

@@ -28,7 +28,7 @@ export default [
     } = req;
 
     db.connect((error, client, done) => {
-      if (error) return done(next(error));
+      if (error) return next(error);
       const query1 = {
         text: `select * from rides where rides.departure_date = $1
         and rides.departure_time = $2`,

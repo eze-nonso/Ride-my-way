@@ -1,4 +1,8 @@
 {
-    "reporter": ["lcov", "html", "text"]
-
+    "reporter": ["lcov", "html", "text"],
+    "exclude": [
+        "server/controllers",
+        "server/db",
+        "test/"
+    ]
 }    

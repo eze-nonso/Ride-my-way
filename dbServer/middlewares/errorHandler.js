@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 
 export default (error, req, res, next) => {
   if (res.headersSent) {
@@ -6,7 +6,7 @@ export default (error, req, res, next) => {
   }
   return !error.errors
     ? res.status(error.status || 500).send({
-      message: error.stack,
+      message: error.message,
       serverError: !error.status && error,
     })
     : res.status(422).send({

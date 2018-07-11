@@ -19,7 +19,7 @@ const newUser = {
   firstname: 'Kelly',
   lastname: 'Dowson',
   phone: '080564686789',
-  password: 'secure3',
+  password: 'secure3yu',
   city: 'CityState',
   state: 'newState',
 };

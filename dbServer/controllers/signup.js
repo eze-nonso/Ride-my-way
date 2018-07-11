@@ -2,6 +2,8 @@ import db from '../db';
 
 import auth from '../middlewares/auth';
 
+import encrypt from '../middlewares/encrypt';
+
 export default [
   (req, res, next) => {
     req.validateBody('email')();
@@ -13,6 +15,7 @@ export default [
     req.validateBody('type', 'password')(req.body.password);
     return req.sendErrors(next);
   },
+  encrypt.hash,
   (req, res, next) => {
     const notUnique = {
       text: `select * from users where users.email = $1 or (users.firstname = $2
