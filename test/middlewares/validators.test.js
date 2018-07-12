@@ -23,25 +23,67 @@ describe('Tests for validator', () => {
     next.resetHistory();
   });
 
-  it('Should populate req.body.email with error and throw if invalid email', () => {
-    const email = 'notValidMail';
-    req.body.email = email;
-    req.validateBody('email')();
-    expect(() => req.sendErrors(next)).to.throw('Validation error');
-    expect(req.body.errors).to.have.property('email').lengthOf(1);
-    expect(next).to.not.have.been.called;
+  describe('Tests for email validator', () => {
+    it('Should populate req.body.errors.email with error and throw if invalid email', () => {
+      const email = 'notValidMail';
+      req.body.email = email;
+      req.validateBody('email')();
+      expect(() => req.sendErrors(next)).to.throw('Validation error');
+      expect(req.body.errors).to.have.property('email').lengthOf(1);
+      expect(next).to.not.have.been.called;
+    });
+
+    it('Should call next for valid email', () => {
+      const email = 'valid@gm.com';
+      req.body.email = email;
+      expect(() => req.sendErrors(next)).to.not.throw();
+      expect(req.body.errors).to.have.property('email').empty;
+      expect(next).to.have.been.called;
+    });
   });
 
-  it('Should call next for valid email', () => {
-    const email = 'valid@gm.com';
-    req.body.email = email;
-    expect(() => req.sendErrors(next)).to.not.throw();
-    expect(req.body.errors).to.have.property('email').empty;
-    expect(next).to.have.been.called;
+  describe('Tests for stringtype validator', () => {
+    it('Should populate req.body.errors.stringType with error and throw if not string type', () => {
+      const notString = undefined;
+      req.validateBody('type', 'string')(notString);
+      expect(() => req.sendErrors(next)).to.throw();
+      expect(next).to.not.have.been.called;
+      expect(req.body.errors).to.have.property('stringType').length(1);
+    });
+
+    it('Should call next for valid stringType', () => {
+      const validString = 'helloWorld';
+      req.validateBody('type', 'string')(validString);
+      expect(() => req.sendErrors(next)).to.not.throw();
+      expect(req.body.errors).to.have.property('stringType').empty;
+      expect(next).to.have.been.called;
+    });
   });
 
-  it('Should populate req.body.stringType with error and throw if not string type', () => {
-    const notString = undefined;
-    req.validateBody('type')
-  })
+  describe('Tests for notEmptyString validator', () => {
+    it('Should populate req.body.errors.notEmptyString with error and throw if empty string', () => {
+      req.body.emptyString = '   ';
+      req.validateBody('notEmptyString')('emptyString');
+      expect(() => req.sendErrors(next)).to.throw();
+      expect(next).to.not.have.been.called;
+      expect(req.body.errors).to.have.property('notEmptyString').lengthOf(1);
+    });
+
+    it('Can accept non req.body args and modify error messages accordingly', () => {
+      expect(req.validateBody('notEmptyString')(' ')).to.be.false;
+      expect(() => req.sendErrors(next)).to.throw();
+      expect(next).to.not.have.been.called;
+      expect(req.body.errors).to.have.property('notEmptyString').lengthOf(1);
+    });
+  });
+
+  describe('Tests for password type', () => {
+    it('Should populate req.body.errors.passwordType with error and throw for invalid password', () => {
+      const pwd = '108kf';
+      req.validateBody('type', 'password')(pwd);
+      expect(() => req.sendErrors(next)).to.throw();
+      expect(next).to.not.have.been.called;
+      expect(req.body.errors).to.have.property('passwordType').lengthOf(1);
+    });
+  });
 });
