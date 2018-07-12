@@ -32,7 +32,7 @@ export default (req, res, next) => {
       keys.forEach((key) => {
         if (!req.body[key] || !req.body[key].trim || !req.body[key].trim().length) {
           notEmptyString = false;
-          req.body.errors.notEmptyString.push(`'${req.body.key ? req.body.key : key}' is an empty string or not a string`);
+          req.body.errors.notEmptyString.push(`'${req.body.key}' is an empty string or not a string`);
         }
       });
       return notEmptyString;

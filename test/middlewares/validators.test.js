@@ -68,13 +68,6 @@ describe('Tests for validator', () => {
       expect(next).to.not.have.been.called;
       expect(req.body.errors).to.have.property('notEmptyString').lengthOf(1);
     });
-
-    it('Can accept non req.body args and modify error messages accordingly', () => {
-      expect(req.validateBody('notEmptyString')(' ')).to.be.false;
-      expect(() => req.sendErrors(next)).to.throw();
-      expect(next).to.not.have.been.called;
-      expect(req.body.errors).to.have.property('notEmptyString').lengthOf(1);
-    });
   });
 
   describe('Tests for password type', () => {
