@@ -45,7 +45,7 @@ export default (req, res, next) => {
           return true;
         },
         date: (dateString) => {
-          if (new Date(dateString) === 'Invalid Date' || isNaN(new Date(dateString))) {
+          if ((new Date(dateString)).toDateString() === 'Invalid Date') {
             return req.body.errors.dateType.push(`'${dateString}' is not a valid dateString`);
           }
           return true;
@@ -55,7 +55,7 @@ export default (req, res, next) => {
           if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(pwd)) {
             return true;
           }
-          req.body.errors.passwordType.push('Password should be minimun 8 characters and contain at least one number and one letter');
+          req.body.errors.passwordType.push('Password should be minimum 8 characters and contain at least one number and one letter');
           return false;
         },
       };

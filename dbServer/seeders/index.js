@@ -113,7 +113,7 @@ export default class Seeder {
             if (error3) return done(callback(error3));
             return client.query(populateRequests, (error4) => {
               done();
-              if (error4) return done(callback(error4));
+              if (error4) return callback(error4);
               return callback();
             });
           });

@@ -26,14 +26,14 @@ const asyncWrapper = {
     const queryCallback = () => db.connect(callback);
     asyncWrapper.tablesCreated((error) => {
       if (error) return runModels(queryCallback);
-      return queryCallback();
+      return process.nextTick(() => queryCallback());
     });
   },
   query: (queryObj, callback2, callback) => {
     const queryCallback = () => db.query(queryObj, callback2, callback);
     asyncWrapper.tablesCreated((error) => {
       if (error) return runModels(queryCallback);
-      return queryCallback();
+      return process.nextTick(() => queryCallback());
     });
   },
   tablesCreated: (callback) => {

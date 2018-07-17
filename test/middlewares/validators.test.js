@@ -79,4 +79,14 @@ describe('Tests for validator', () => {
       expect(req.body.errors).to.have.property('passwordType').lengthOf(1);
     });
   });
+
+  describe('Tests for dateType validator', () => {
+    it('Should populate req.body.errors.dateType with error and throw for invalid date string', () => {
+      const date = '10/18:hello16';
+      req.validateBody('type', 'date')(date);
+      expect(() => req.sendErrors(next)).to.throw();
+      expect(next).to.not.have.been.called;
+      expect(req.body.errors).to.property('dateType').lengthOf(1);
+    });
+  });
 });

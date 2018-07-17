@@ -38,7 +38,7 @@ export default [
         }
 
         return client.query(query, (error2, res2) => {
-          if (error2) return next(error2);
+          if (error2) return done(next(error2));
           const carId = res2.rows[0].id;
           const query2 = {
             text: `insert into users (

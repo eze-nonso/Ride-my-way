@@ -39,3 +39,17 @@ describe('Tests for welcome route', () => {
       });
   });
 });
+
+describe('Tests for error handler and not found handler', () => {
+  it('Should send error 404 for route not found with status and data object', (done) => {
+    chai.request(app)
+      .get(`${api}/not/found`)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res).to.have.status(404);
+        expect(res.body).property('status', 'error');
+        expect(res.body).property('data').eql({ message: 'Page not found' });
+        return done();
+      });
+  });
+});
