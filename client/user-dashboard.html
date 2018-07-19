@@ -18,8 +18,7 @@
         </a>
       </div>
       <div class="page-title d-flex-md">
-        <div class="date">
-          <h2>Welcome, Dinma</h2>
+        <div class="date" id='js-welcome'>
         </div>
       </div>
       <div class="navlinks driver-nav">
@@ -51,9 +50,9 @@
               <a href="./index.html">RIDE-MY-WAY</a>
             </h3>
             <div class="username-circle">
-              <p>D&#9663;</p>
+              <p>&#9663;</p>
             </div>
-            <p>Dinma</p>
+            <p id='js-user'></p>
             <span>
               <a href="./index.html">Logout</a>
             </span>
@@ -86,29 +85,45 @@
           <div class="content">
       <div class ="offer-create">
       
-            <form action="./user-dashboard.html">
+            <form action="./user-dashboard.html" id='js-ride'>
             <div class="form-input">
-              <label for="location"> Current Location</label>
-              <input type="text" required id="location" name="location" value="" />
+              <label for="statefrom"> State From</label>
+              <input type="text" required id="statefrom" name="statefrom" value="" />
             </div>
             
             <div class="form-input">
-                <label for="destination"> Destination</label>
-                <input type="text" required id="Destination" name="Destination" value="" />
+                <label for="stateto"> State To</label>
+                <input type="text" required id="stateto" name="stateto" value="" />
               </div>
     
             <div class="form-input">
-              <label for="startTime">Start Time</label>
-              <input type="text" required id="start-time" name="start-time" value=""  />
+              <label for="departuretime">Departure Time</label>
+              <input type="time" required id="departuretime" name="departuretime" value=""  />
             </div>
+
             <div class="form-input">
-                <label for="Seats"> Seats Available</label>
-                <input type="text" required id="Seats" name="Seats" value="" />
+                <label for="departuredate"> Departure Date</label>
+                <input type="date" required id="departuredate" name="departuredate" value="" />
               </div>
              
               <div class="form-input">
-                  <label for="Routes"> Routes</label>
-                  <input type="text" required id="Routes" name="Routes" value="" />
+                  <label for="price"> Price</label>
+                  <input type="number" min="1" step="any" required id="price" name="price" value="" />
+              </div>
+
+              <div class="form-input">
+                  <label for="pickup"> Pickup Location</label>
+                  <input type="text" required id="pickup" name="pickup" value="" />
+              </div>
+
+              <div class="form-input">
+                  <label for="cityto"> City To</label>
+                  <input type="text" required id="cityto" name="cityto" value="" />
+              </div>
+
+              <div class="form-input">
+                  <label for="cityfrom"> City From</label>
+                  <input type="text" required id="cityfrom" name="cityfrom" value="" />
               </div>
            
 
@@ -148,7 +163,10 @@
   <div class="footer">
     <p>&copy; 2018. Nma Otutu. </p>
   </div>
-  <script src="./js/dashboard.js"></script>
+  <script
+    src='./js-client/amd/require.js' 
+    data-main='./js-client/dashboard'>
+  </script>
 </body>
 
 </html>

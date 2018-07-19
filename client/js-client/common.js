@@ -2,9 +2,8 @@ define([], () => class {
   static store({
     token, user,
   }) {
-    localStorage.clear();
     localStorage.setItem('token', token);
-    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   static errorHandler(error) {
@@ -12,6 +11,18 @@ define([], () => class {
   }
 
   static allow() {
-    window.location.href = '/rides.html';
+    window.location.href = '/user-dashboard.html';
+  }
+
+  static auth(token) {
+    const headers = new Headers({
+      'x-access-token': token,
+    });
+    // check that token is valid
+    return fetch('/api/v1/rides', {
+      method: 'GET',
+      headers,
+    })
+      .then(res => res.ok);
   }
 });
