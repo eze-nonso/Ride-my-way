@@ -6,7 +6,6 @@
   "scripts": {
     "test": "nyc mocha",
     "lint-all": "eslint \"server/**/*.js\" app.js",
-    "start:serve": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
     "server": "node -r dotenv/config -r babel-register server/www.js",
     "start": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\""
   },

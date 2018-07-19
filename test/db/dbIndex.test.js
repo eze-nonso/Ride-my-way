@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import Seeder from '../../dbServer/seeders';
 
 import db from '../../dbServer/db';

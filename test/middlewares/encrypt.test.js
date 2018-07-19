@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-expressions */
-
 import sinon from 'sinon';
 
 import bcrypt from 'bcrypt';

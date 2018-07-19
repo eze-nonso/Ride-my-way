@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import routesFunction from '../dbServer/routes/v1';
 
 const urlParser = express.urlencoded({
@@ -11,13 +12,9 @@ const app = express();
 
 app.use(urlParser);
 app.use(jsonParser);
-
+app.use(express.static(path.resolve(__dirname, '../client')));
 
 routesFunction(app);
-
-app.get('/', (req, res) => {
-  res.redirect(`api/${process.env.VERSION}`);
-});
 
 app.use((req, res) => {
   res.status(404).send({
