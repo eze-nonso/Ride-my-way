@@ -29,30 +29,40 @@
       </div>
      
       <div class="content" id="one">
-        <form action="./rides.html">
+        <form id='js-signup' method='POST'>
           <div class="form-input">
-            <label for="name"> Name</label>
-            <input type="text" required id="name" name="name" value="" />
+              <label for="email">Email Address</label>
+              <input type="email" required id="email" name="email" value=""  />
           </div>
 
           <div class="form-input">
-            <label for="email">Email Address</label>
-            <input type="email" required id="email" name="email" value=""  />
+            <label for="firstname">First Name</label>
+            <input type="text" required id="firstname" name="firstname" value="" />
           </div>
 
           <div class="form-input">
-              <label for="number"> Phone Number</label>
-              <input type="text" required id="number" name="number" value="" />
+            <label for="lastname">Last Name</label>
+            <input type="text" required id="lastname" name="lastname" value="" />
+          </div>
+
+          <div class="form-input">
+            <label for="city">City</label>
+            <input type="text" required id="city" name="city" value="" />
+          </div>
+
+          <div class="form-input">
+            <label for="state">State</label>
+            <input type="text" required id="state" name="state" value="" />
+          </div>
+
+          <div class="form-input">
+              <label for="number">Phone Number</label>
+              <input type="tel" required id="number" name="number" value="" />
             </div>
 
           <div class="form-input">
             <label for="password">Password</label>
             <input type="password" required id="password" name="password" value="" />
-          </div>
-            
-          <div class="form-input">
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" required id="confirm-password" name="confirm-password" value="" />
           </div>
 
           <button class="btn btn-pri btn-block" type="submit">SIGN UP</button>
@@ -68,6 +78,10 @@
   <div class="footer">
     <p>Made by Nma Otutu</p>
   </div>
+  <script
+    src='./js-client/amd/require.js' 
+    data-main='./js-client/signup'>
+  </script>
 </body>
 
 </html>

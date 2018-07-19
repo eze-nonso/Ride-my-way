@@ -10,4 +10,8 @@ define([], () => class {
   static errorHandler(error) {
     alert(error.message);
   }
+
+  static allow() {
+    window.location.href = '/rides.html';
+  }
 });

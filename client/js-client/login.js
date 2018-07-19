@@ -18,11 +18,11 @@ define(['./common'], (common) => {
       body: JSON.stringify(body),
       headers,
     })
-      .then(res => ([res.json(), res]))
+      .then(res => Promise.all([res.json(), res]))
       .then(([data, res]) => {
         if (data.user) {
         // logged in successfully, redirect
-          window.location.href = '/rides.html';
+          common.allow();
           return common.store({
             token: data.token, user: data.user,
           });
