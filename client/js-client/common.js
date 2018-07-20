@@ -1,4 +1,4 @@
-define([], () => class {
+define([], () => class Common {
   static store({
     token, user,
   }) {
@@ -24,5 +24,30 @@ define([], () => class {
       headers,
     })
       .then(res => res.ok);
+  }
+
+  static formatDate({ date, time }) {
+    return new Date(`${date.split('T')[0]}T${time}`);
+  }
+
+  static toLocaleDateString({
+    date, time,
+  }) {
+    return Common.formatDate({ date, time })
+      .toLocaleDateString(undefined, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+  }
+
+  static isFrozen({ departure_time: departureTime, departure_date: departureDate }) {
+    // cannot modify 6 hours before stipulated time
+    const date = Common.formatDate({ date: departureDate, time: departureTime });
+    const interval = 6 * 3600 * 1000;
+    if (date.valueOf() - Date.now() <= interval) return true;
+    return false;
   }
 });
