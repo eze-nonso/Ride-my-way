@@ -53,7 +53,9 @@ define(['./common'], (common) => {
         alertModal.style.setProperty('display', 'block');
         rideForm.reset();
         return setTimeout(
-          () => alertModal.style.setProperty('display', 'none'),
+          () => {
+            alertModal.style.setProperty('display', 'none');
+          },
           3000,
         );
       })

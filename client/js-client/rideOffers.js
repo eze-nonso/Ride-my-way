@@ -1,6 +1,7 @@
 define(['./common'], (common) => {
   const displayLetter = document.querySelector('.username-circle p');
   const offersWrapper = document.getElementById('one');
+  const userName = document.getElementById('js-username');
 
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user.id;
@@ -10,6 +11,8 @@ define(['./common'], (common) => {
     user.firstname.slice(0, 1)
   )
     .toUpperCase() + displayLetter.textContent;
+
+  userName.textContent = user.firstname;
 
   const route = '/api/v1/rides';
   const processGetOffers = () => {
@@ -59,22 +62,30 @@ define(['./common'], (common) => {
     ? common.isFrozen(ride)
       ? 'class="btn btn-pri change" disabled style="background-color:#848b85;border:1px #848b85;color:#585656;cursor:default;">remove'
       : 'class="btn btn-pri change" style="background-color:#cd6a52;border:#cd6a52;">remove'
-    : 'class="btn btn-pri change">select'
-}</button>
+    : 'class="btn btn-pri change">select'}</button>
           `;
+
+          const actionLink = `
+            <a
+            ${
+  +userId === +ride.user_id
+    ? common.isFrozen(ride)
+      ? 'href="#">'
+      : `href="./user-order-details.html?remove=true&id=${ride.id}">`
+    : `href="./user-order-details.html?id=${ride.id}">`
+}${actionButton}</a>`;
 
           offersWrapper.querySelector('#js-order-summary').innerHTML += `
             <div>
             <h3>${index + 1}.&nbsp;${ride.driver_name} | ${ride.city_from} TO ${ride.city_to} &nbsp; | PICKUP- ${ride.pickup_location}<BR>
-              &nbsp; &nbsp;<a href=""#""> <br>
-              ${+userId === +ride.user_id && common.isFrozen(ride) ? '' : `<a href="./user-order-details.html${+userId === +ride.user_id && !common.isFrozen(ride) ? `?remove=true&id=${ride.id}` : ''}">`}
-              ${actionButton}</a>&nbsp; 
+              &nbsp; &nbsp;${actionLink}&nbsp;
               &nbsp;${localeTime}
             </h3>
             </div>
             ${index + 1 === data.rides.length ? '' : '<hr>'}
             `;
         });
+
       })
       .catch(error => common.errorHandler(error));
   };
