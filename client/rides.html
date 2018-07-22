@@ -18,8 +18,7 @@
         </a>
       </div>
       <div class="page-title d-flex-md">
-          <div class="date">
-            <h2>Hello, Dinma</h2>
+          <div class="date" id='js-welcome'>
           </div>
         </div>
       
@@ -51,11 +50,11 @@
               <a href="./index.html">RIDE-MY-WAY</a>
             </h3>
             <div class="username-circle">
-              <p>D</p>
+              <p></p>
             </div>
-            <p>Dinma</p>
+            <p id='js-user'></p>
             <span>
-              <a href="./index.html">Logout</a>
+              <a href="./index.html?red=2">Logout</a>
             </span>
           </div>
         </div>
@@ -74,7 +73,7 @@
         </div>
 
       </div>
-      <div class="order-details">
+      <div class="order-details" id='js-order-details'>
         <div>
           <table>
             <thead >
@@ -85,86 +84,6 @@
               <th>Date</th>
               <th>Status</th>
             </thead>
-            <tr>
-              <td>001</td>
-              <td>Ms Adaeze</td>
-              <td>Ikotun</td>
-              <td>Egbeda</td>
-              <td>27/12/2018 8:50pm</td>
-              <td>
-                <span>
-                  <select class="success table-select" value="Pending">
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="Accept">Accept</option>
-                    <option class="danger" value="reject">Reject</option>
-                  </select>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>001</td>
-              <td>Ms Adaeze</td>
-              <td>Ikotun</td>
-              <td>Egbeda</td>
-              <td>27/12/2018 8:50pm</td>
-              <td>
-                <span>
-                  <select class="success table-select" value="Pending">
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="Accept">Accept</option>
-                    <option class="danger" value="Reject">Reject</option>
-                  </select>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>001</td>
-              <td>Ms Adaeze</td>
-              <td>Ikotun</td>
-              <td>Egbeda</td>
-              <td>27/12/2018 8:50pm</td>
-              <td>
-                <span>
-                  <select class="success table-select" value="Pending">
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="accept">Accept</option>
-                    <option class="danger" value="Reject">Reject</option>
-                  </select>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>001</td>
-              <td>Ms Adaeze</td>
-              <td>Ikotun</td>
-              <td>Egbeda</td>
-              <td>27/12/2018 8:50pm</td>
-              <td>
-                <span>
-                  <select class="success table-select" value="Pending">
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="Accept">Accept</option>
-                    <option class="danger" value="Reject">Reject</option>
-                  </select>
-                </span>
-              </td>
-            </tr>
-            <tr class="accept-t">
-              <td>001</td>
-              <td>Ms Adaeze</td>
-              <td>Ikotun</td>
-              <td>Egbeda</td>
-              <td>27/12/2018 8:50pm</td>
-              <td>
-                <span>
-                  <select class="success table-select" value="Pending">
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="Accept">Accept</option>
-                    <option class="danger" value="Reject">Reject</option>
-                  </select>
-                </span>
-              </td>
-            </tr>
           </table>
         </div>
       </div>
@@ -183,6 +102,10 @@
       <hr>
     </div>
   </div>
+  <script
+    src='./js-client/amd/require.js' 
+    data-main='./js-client/replyRequest'>
+  </script>
 </body>
 
 </html>
