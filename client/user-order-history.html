@@ -18,9 +18,8 @@
         </a>
       </div>
       <div class="page-title d-flex-md">
-        <div class="date">
-          <h2>Hello Dinma</h2>
-        </div>
+          <div class="date" id='js-welcome'>
+            </div>
       </div>
       <div class="navlinks driver-nav">
         <div class="dropdown notification">
@@ -50,11 +49,11 @@
               <a href="./index.html">RIDE-MY-WAY</a>
             </h3>
             <div class="username-circle">
-              <p>D</p>
-            </div>
-            <p>Dinma</p>
+                <p></p>
+              </div>
+              <p id='js-user'></p>
             <span>
-              <a href="./index.html">Logout</a>
+              <a href="./index.html?red=2">Logout</a>
             </span>
           </div>
         </div>
@@ -73,8 +72,8 @@
             <h2 class="order-wraps"> Order History</h2>
             <hr>
           </div>
-          <div class="tabs">
-            <div class="order-history-tab">
+          <div class="tabs" id='js-tabs'>
+            <!-- <div class="order-history-tab">
               
                 <div class="order-wrap">
                 <div class="order-history-header">
@@ -147,7 +146,7 @@
             </div>
           </div>
           
-        </div>
+        </div> -->
       </div>
       </div>
       <div class="footer">
@@ -163,6 +162,10 @@
          
         </div>
       </div>
+      <script
+        src='./js-client/amd/require.js' 
+        data-main='./js-client/orderHistory'>
+      </script>
     </body>
     
     
