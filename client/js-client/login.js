@@ -1,4 +1,4 @@
-define(['./common'], (common) => {
+define(['./common', './index'], (common, index) => {
   const email = document.getElementById('login-email');
   const password = document.getElementById('login-password');
   const loginForm = document.getElementById('js-login');
