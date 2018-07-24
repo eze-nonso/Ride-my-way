@@ -21,4 +21,15 @@ export default {
     pickup_location: 'Oshodi Park',
     user_id: 2,
   },
+  ride3: {
+    state_from: 'Maritau',
+    state_to: 'Parista',
+    city_from: 'Sauntol',
+    city_to: 'Sevastopol',
+    price: 750,
+    departure_date: '2018-10-12',
+    departure_time: '11:16:10',
+    pickup_location: 'Interstar Shuttles',
+    user_id: 1,
+  },
 };

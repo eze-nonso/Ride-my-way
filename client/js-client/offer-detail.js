@@ -62,7 +62,10 @@ define(['./common', './requestRide'], (common, requestRide) => {
             <a href="./rides-confirmation.html">
               <button class="btn btn-pri">back</button>
             </a>
-            <button class="btn btn-pri" ${exists ? 'id = "cancel" style="background-color:#cd6a52;border:#cd6a52;">Cancel' : 'id = "confirm">Confirm'}</button>
+            <button class="btn btn-pri" 
+            ${exists
+    ? 'id = "cancel" style="background-color:#cd6a52;border:#cd6a52;">Cancel Request'
+    : 'id = "confirm">Confirm'}</button>
             <div id="myModal1" class="modal">
               <div class="modal-header">
               <div class="modal-content">
@@ -74,14 +77,10 @@ define(['./common', './requestRide'], (common, requestRide) => {
         </div>
         </div>
           `;
-        try {
-          document.getElementById('confirm')
-            .addEventListener('click', requestRide(rideId));
-          document.getElementById('cancel')
-            .addEventListener('click', requestRide(rideId, null, true));
-        } catch (error) {
-          console.log(error);
-        }
+        const confirm = document.getElementById('confirm');
+        const cancel = document.getElementById('cancel');
+        if (confirm) confirm.addEventListener('click', requestRide(rideId));
+        if (cancel) cancel.addEventListener('click', requestRide(rideId, null, true));
       }
     });
 });
