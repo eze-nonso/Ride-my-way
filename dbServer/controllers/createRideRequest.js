@@ -57,7 +57,6 @@ export default (req, res, next) => {
           };
 
           return client.query(update, (uErr, uRes) => {
-            done();
             if (uErr) return next(uErr);
             return res.status(201).send({
               rideRequest: uRes.rows[0],

@@ -6,6 +6,12 @@ define(['./common'], (common) => {
 
   const user = JSON.parse(localStorage.getItem('user'));
 
+  if (!user) {
+    return common.errorHandler({
+      message: 'Cannot access requested resource',
+    }, 401);
+  }
+
   const greeting = document.createTextNode(`Hello, ${user.firstname}`);
   displayName.textContent = user.firstname;
   const h2 = document.createElement('h2');
@@ -33,7 +39,7 @@ define(['./common'], (common) => {
     .then(([data, res]) => {
       if (!res.ok) {
         // error status handling
-        alert(JSON.stringify(data));
+        common.errorHandler(data, res.status);
       } else {
         const userRequests = data.requests
           .filter(req => req.requester_id === userId);

@@ -6,8 +6,16 @@ define(['./common', './requestRide'], (common, requestRide) => {
   const modalHeader = modal.querySelector('.modal-header');
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user.id;
   const token = localStorage.getItem('token');
+
+  if (!user || !token) {
+    return common.errorHandler({
+      message: 'Cannot access requested resource',
+    }, 401);
+  }
+
+  const userId = user.id;
+
   const headers = new Headers({
     'x-access-token': token,
   });
@@ -35,7 +43,7 @@ define(['./common', './requestRide'], (common, requestRide) => {
         .then(([delData, delRes]) => {
           if (!delRes.ok) {
             // error status handling
-            alert(JSON.stringify(delData));
+            common.errorHandler(delData, delRes.status);
           } else {
             modalHeader.innerHTML += `<p style='font-size:larger;color:green;'>
               Ride successfully deleted!
@@ -50,11 +58,15 @@ define(['./common', './requestRide'], (common, requestRide) => {
             }, 2000);
           }
         })
+        /* remove listener - evt.target removed on
+        page reload or error status handling */
+        .then(() => evt.target
+          .removeEventListener(evt.type, remove))
         .catch(error => common.errorHandler(error));
     }
   };
 
-  const processGetOffers = () => {
+  const processGetOffers = (evt) => {
     fetch(route, {
       method: 'GET',
       headers,
@@ -63,7 +75,7 @@ define(['./common', './requestRide'], (common, requestRide) => {
       .then(([data, res]) => {
         if (!res.ok) {
           // add error handling here
-          return alert(JSON.stringify(data));
+          return common.errorHandler(data, res.status);
         }
         if (!data.rides.length) {
           // no rides
@@ -75,6 +87,7 @@ define(['./common', './requestRide'], (common, requestRide) => {
           return offersWrapper.removeChild(offersWrapper.querySelector('progress'));
         }
 
+        // rides available
         offersWrapper.innerHTML = `
             <h2>Current Available Rides</h2>
             <hr>
@@ -89,6 +102,23 @@ define(['./common', './requestRide'], (common, requestRide) => {
           });
 
           const exists = await requestRide(ride.id, true)();
+          const requests = await requestRide(ride.id, 'all')();
+          let status = 'class="danger">*ride deleted';
+          if (exists) {
+            const { accepted } = exists;
+            status = (() => {
+              switch (accepted) {
+                case null: return 'class="warning">*pending';
+                case true: return 'class="success">*accepted';
+                default: return 'class="danger">*rejected';
+              }
+            })();
+          }
+
+          const disableButton = 'class="btn btn-pri" disabled style="background-color:#848b85;border:1px #848b85;color:#585656;cursor:default;">remove';
+          const deleteButton = requests.length
+            ? disableButton
+            : 'class="btn btn-pri change" style="background-color:#cd6a52;border:#cd6a52;">remove';
 
           /* eslint-disable no-nested-ternary */
           const actionButton = `
@@ -96,8 +126,8 @@ define(['./common', './requestRide'], (common, requestRide) => {
           ${
   +userId === +ride.user_id
     ? common.isFrozen(ride)
-      ? 'class="btn btn-pri" disabled style="background-color:#848b85;border:1px #848b85;color:#585656;cursor:default;">remove'
-      : 'class="btn btn-pri change" style="background-color:#cd6a52;border:#cd6a52;">remove'
+      ? disableButton
+      : deleteButton
     : 'class="btn btn-pri change">select'}</button>
           `;
 
@@ -112,7 +142,10 @@ define(['./common', './requestRide'], (common, requestRide) => {
 }${actionButton}</a>`;
 
           offersWrapper.querySelector('#js-order-summary').innerHTML += `
-            ${exists ? '<small style="color:green;position:absolute;">*requested</small>' : ''}
+            ${exists ? `<span style="position:absolute;"><small class='success'>*requested</small>&emsp;<small ${status}</small></span>` : ''}
+            ${+userId === +ride.user_id
+    ? `<span style="position:absolute;"><small class='success'>${requests.length}</small> <small>requests</small></span>`
+    : ''}
             <div>
             <h3>${index + 1}.&nbsp;${ride.driver_name} | ${ride.city_from} TO ${ride.city_to} &nbsp; | PICKUP- ${ride.pickup_location}<BR>
               &nbsp; &nbsp;${actionLink}&nbsp;
@@ -127,8 +160,12 @@ define(['./common', './requestRide'], (common, requestRide) => {
           .then(populator.bind(null, curr, index)), Promise.resolve());
       })
       .then(() => {
+        // DOM fully populated - safe to query
         const delRides = document.querySelectorAll('[data-delete]');
-        delRides.forEach(ride => ride.addEventListener('click', remove));
+        delRides
+          .forEach(ride => ride.addEventListener('click', remove));
+        evt.target
+          .removeEventListener(evt.type, processGetOffers);
       })
       .catch(error => common.errorHandler(error));
   };
