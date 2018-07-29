@@ -19,7 +19,7 @@ describe('Tests for database index file', function dIndex() {
       // tables dropped
       return db.connect((error2, client, release) => {
         if (error2) return done(error2);
-        return client.query('Select from requests', release(done()));
+        return client.query('Select * from requests', release(done()));
       });
     });
   });
