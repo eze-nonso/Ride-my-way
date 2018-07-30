@@ -3,12 +3,6 @@ define(['./common'], (common) => {
   const email = document.getElementById('email');
   const password = document.getElementById('password');
   const firstname = document.getElementById('firstname');
-  const lastname = document.getElementById('lastname');
-  const city = document.getElementById('city');
-  const state = document.getElementById('state');
-  const number = document.getElementById('number');
-  const carMake = document.getElementById('carmake');
-  const carModel = document.getElementById('carmodel');
 
   const route = '/api/v1/auth/signup';
 
@@ -17,6 +11,7 @@ define(['./common'], (common) => {
     const headers = new Headers({
       'content-type': 'application/json',
     });
+
     const body = {
       email: signupForm.email.value,
       phone: signupForm.number.value,
