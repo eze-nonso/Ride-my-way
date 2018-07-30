@@ -24,7 +24,9 @@ define(['./common'], common =>
       .then(res => Promise.all([res.json(), res]))
       .then(([data, res]) => {
         if (!res.ok) return common.errorHandler(data, res.status);
-        return data.requests;
+        return data.requests.filter(req => !req.deleted &&
+          req.owner_id === userId &&
+          req.ride_id === rideId);
       });
 
     if (checkRequest === 'all') return requests;
