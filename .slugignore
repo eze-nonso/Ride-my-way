@@ -1,0 +1,15 @@
+# ./test directory
+
+/test/
+
+# ./coverage directory
+
+/coverage/
+
+# directories in ./server
+
+/server/*/
+
+# ./UI directory
+
+/UI/
