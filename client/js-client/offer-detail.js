@@ -4,6 +4,12 @@ define(['./common', './requestRide'], (common, requestRide) => {
   const user = JSON.parse(window.localStorage.getItem('user'));
   const rideId = new URL(window.location.href).searchParams.get('id');
 
+  if (!user) {
+    return common.errorHandler({
+      message: 'Cannot access requested resource',
+    }, 401);
+  }
+
   // attach first letter of first name
   displayLetter.textContent = (
     user.firstname.slice(0, 1)
@@ -18,7 +24,9 @@ define(['./common', './requestRide'], (common, requestRide) => {
   const headers = new Headers({
     'x-access-token': window.localStorage.getItem('token'),
   });
-  fetch(route, {
+
+  /* eslint-disable no-nested-ternary */
+  return fetch(route, {
     method: 'GET',
     headers,
   })
@@ -26,10 +34,16 @@ define(['./common', './requestRide'], (common, requestRide) => {
     .then(async ([data, res]) => {
       if (!res.ok) {
         // add error status handling here
-        alert(JSON.stringify(data));
+        common.errorHandler(data, res.status);
       } else {
         // does a request exist for this ride?
         const exists = await requestRide(data.ride.id, true)();
+        if (exists) {
+          if (exists.accepted === true) exists.accepted = '<span class="success">Accepted</span>';
+          if (exists.accepted === false) exists.accepted = '<span class="danger">Rejected</span>';
+          if (exists.accepted === null) exists.accepted = '<span class="warning">Pending</span>';
+        }
+        const accepted = exists.accepted || undefined;
         const order = document.getElementById('js-order-confirmation');
         order.innerHTML = `
         <div>
@@ -54,6 +68,9 @@ define(['./common', './requestRide'], (common, requestRide) => {
             <br><br>&nbsp;City - to: &nbsp;${data.ride.city_to} &nbsp;
             <br><br>&nbsp;State - from: &nbsp;${data.ride.state_from} &nbsp;
             <br><br>&nbsp;State - to: &nbsp;${data.ride.state_to} &nbsp;
+            ${exists
+    ? `<br><br>&nbsp;Request status: &nbsp;${exists.accepted} &nbsp;`
+    : ''}
             &nbsp; &nbsp;  
             </h3>
           </div>
@@ -62,26 +79,20 @@ define(['./common', './requestRide'], (common, requestRide) => {
             <a href="./rides-confirmation.html">
               <button class="btn btn-pri">back</button>
             </a>
-            <button class="btn btn-pri" ${exists ? 'id = "cancel" style="background-color:#cd6a52;border:#cd6a52;">Cancel' : 'id = "confirm">Confirm'}</button>
-            <div id="myModal1" class="modal">
-              <div class="modal-header">
-              <div class="modal-content">
-              <span class="close">&times;</span>
-              <h3> Thank you, a request has been created and a notification will be sent to you!</h3>
-              </div>
-            </div>
-          </div>    
+            <button class="btn btn-pri" 
+            ${exists
+    ? accepted.includes('Pending')
+      ? 'id = "cancel" style="background-color:#cd6a52;border:#cd6a52;">Cancel Request'
+      : 'class="btn btn-pri" disabled style="background-color:#848b85;border:1px #848b85;color:#585656;cursor:default;">Cancel Request'
+    : 'id = "confirm">Confirm'
+}</button>
         </div>
         </div>
           `;
-        try {
-          document.getElementById('confirm')
-            .addEventListener('click', requestRide(rideId));
-          document.getElementById('cancel')
-            .addEventListener('click', requestRide(rideId, null, true));
-        } catch (error) {
-          console.log(error);
-        }
+        const confirm = document.getElementById('confirm');
+        const cancel = document.getElementById('cancel');
+        if (confirm) confirm.addEventListener('click', requestRide(rideId));
+        if (cancel) cancel.addEventListener('click', requestRide(rideId, null, true));
       }
     });
 });

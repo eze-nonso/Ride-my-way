@@ -6,6 +6,12 @@ define(['./common'], (common) => {
 
   const user = JSON.parse(localStorage.getItem('user'));
 
+  if (!user) {
+    return common.errorHandler({
+      message: 'Cannot access requested resource',
+    }, 401);
+  }
+
   const greeting = document.createTextNode(`Hello, ${user.firstname}`);
   displayName.textContent = user.firstname;
   const h2 = document.createElement('h2');
@@ -33,64 +39,80 @@ define(['./common'], (common) => {
     .then(([data, res]) => {
       if (!res.ok) {
         // error status handling
-        alert(JSON.stringify(data));
+        common.errorHandler(data, res.status);
       } else {
         const userRequests = data.requests
           .filter(req => req.requester_id === userId);
         const tab = document.getElementById('js-tabs');
 
-        tab.innerHTML = ((dataArr) => {
-          const populate = (req, index) => `
-            <div class="order-history-tab">
-              
-          ${index === 0 ? '<div class="order-wrap">' : ''}
-          <div class="order-history-header">
-            <h3>#${index + 1}</h3>
-            <h3>${common.toLocaleDateString({
-            date: req.departure_date,
-            time: req.departure_time,
-          })}</h3>
+        if (!userRequests.length) {
+          tab.innerHTML = `
+          <div class="order-history-tab">
+          <div class="order-wrap">
+          <div class='order-history-footer'>
+            <h2>Oops! There is nothing to show yet</h2>
+          <hr>
+          <a href="user-dashboard.html">
+           <button class="btn btn-pri">Back</button>
+          </a>
           </div>
-          
-          <div>
-            <p> &nbsp; Driver: ${req.ride_owner}</p>
           </div>
-          
-          <div>
-              <p> &nbsp; Ride: ${req.city_from} to ${req.city_to}</p>
+          </div>
+          `;
+        } else {
+          tab.innerHTML = ((dataArr) => {
+            const populate = (req, index) => `
+              <div class="order-history-tab">
+                
+            ${index === 0 ? '<div class="order-wrap">' : ''}
+            <div class="order-history-header">
+              <h3>#${index + 1}</h3>
+              <h3>${common.toLocaleDateString({
+              date: req.departure_date,
+              time: req.departure_time,
+            })}</h3>
             </div>
-          <div class="order-history-footer">
-            <h4>Status:
-              <span class="${(() => {
-            switch (req.accepted) {
-              case false: return 'danger';
-              case true: return 'success';
-              default: return 'warning';
-            }
-          })()}">${(() => {
-            switch (req.accepted) {
-              case false: return 'Rejected';
-              case true: return 'Accepted';
-              default: return 'Pending';
-            }
-          })()}</span>
-            </h4>
-            <h2>&#8358;${req.price.slice(1)}</h2>
-            <hr>
-            <!-- suffix here (in the last order-history-footer) -->
-            ${index === dataArr.length - 1 ? `<a href="user-dashboard.html">
-            <button class="btn btn-pri">Back</button></a>` : ''}
-          </div>
-          <!-- more order-history-tabs here 
-          **
-          -->
-            ${dataArr.length - 1 > index ? populate(dataArr[index + 1], index + 1) : ''}
-         </div></div></div>
-         <!-- order wrap div occurs once-->
-         ${index === 0 ? '</div>' : ''}
-            `;
-          return populate(dataArr[0], 0);
-        })(userRequests);
+            
+            <div>
+              <p> &nbsp; Driver: ${req.ride_owner}</p>
+            </div>
+            
+            <div>
+                <p> &nbsp; Ride: ${req.city_from} to ${req.city_to}</p>
+              </div>
+            <div class="order-history-footer">
+              <h4>Status:
+                <span class="${(() => {
+              switch (req.accepted) {
+                case false: return 'danger';
+                case true: return 'success';
+                default: return 'warning';
+              }
+            })()}">${(() => {
+              switch (req.accepted) {
+                case false: return 'Rejected';
+                case true: return 'Accepted';
+                default: return 'Pending';
+              }
+            })()}</span>
+              </h4>
+              <h2>&#8358;${req.price.slice(1)}</h2>
+              <hr>
+              <!-- suffix here (in the last order-history-footer) -->
+              ${index === dataArr.length - 1 ? `<a href="user-dashboard.html">
+              <button class="btn btn-pri">Back</button></a>` : ''}
+            </div>
+            <!-- more order-history-tabs here 
+            **
+            -->
+              ${dataArr.length - 1 > index ? populate(dataArr[index + 1], index + 1) : ''}
+           </div></div></div>
+           <!-- order wrap div occurs once-->
+           ${index === 0 ? '</div>' : ''}
+              `;
+            return populate(dataArr[0], 0);
+          })(userRequests);
+        }
       }
     })
     .catch(error => common.errorHandler(error));

@@ -6,6 +6,14 @@ define(['./common'], (common) => {
 
   const user = JSON.parse(localStorage.getItem('user'));
 
+  if (!user) {
+    return common.errorHandler({
+      message: 'Cannot access requested resource',
+    }, 401);
+  }
+
+  const { id: userId } = JSON.parse(localStorage.getItem('user'));
+
   const greeting = document.createTextNode(`Hello, ${user.firstname}`);
   displayName.textContent = user.firstname;
   const h2 = document.createElement('h2');
@@ -32,19 +40,24 @@ define(['./common'], (common) => {
     .then(([data, res]) => {
       if (!res.ok) {
         // error status code handling
-        alert(JSON.stringify(data));
-      } else if (!data.requests.length) {
+        return common.errorHandler(data, res.status);
+      }
+      return [...data.requests].filter(req => req.owner_id === userId
+        && !req.ride_deleted && !req.deleted);
+    })
+    .then((requests) => {
+      if (!requests || !requests.length) {
         const displayTable = document.querySelector('#js-order-details table');
         displayTable.innerHTML += `
           <tr style="position:relative;">
             <td style='font-size:30px;position:absolute;'>There have been no requests so far</td>
           </tr>
           `;
-      } else {
-        const { id: userId } = JSON.parse(localStorage.getItem('user'));
-        const copy = [...data.requests].filter(req => req.owner_id === userId);
+      } else if (requests) {
+        // if accepted not pending, cannot change accepted 6 hrs b4 time
+
         document.querySelector('#js-order-details table')
-          .innerHTML += copy.reduce((prev, req, index) => `
+          .innerHTML += requests.reduce((prev, req, index) => `
           ${prev}<tr>
           <td>${index + 1}</td>
           <td>${req.requester}</td>
@@ -62,16 +75,22 @@ define(['./common'], (common) => {
   ((status) => {
     switch (status) {
       case true: return `data-ids='${JSON.stringify({ id: req.id, rideId: req.ride_id })}'>
-                    <option class="success" value="pending" disabled>Pending</option>
-                    <option class="warning" value="accept" selected>Accept</option>
-                    <option class="danger" value="reject">Reject`;
+                    <option class="warning" value="pending" disabled>Pending</option>
+                    <option class="success" value="accept" selected>Accept</option>
+                    <option class="danger" ${(common.isFrozen({
+      departure_date: req.departure_date,
+      departure_time: req.departure_time,
+    })) ? 'disabled' : ''} value="reject">Reject`;
       case false: return `data-ids='${JSON.stringify({ id: req.id, rideId: req.ride_id })}'>
-                    <option class="success" value="pending" disabled>Pending</option>
-                    <option class="warning" value="accept">Accept</option>
+                    <option class="warning" value="pending" disabled>Pending</option>
+                    <option class="success" ${(common.isFrozen({
+      departure_date: req.departure_date,
+      departure_time: req.departure_time,
+    })) ? 'disabled' : ''} value="accept">Accept</option>
                     <option class="danger" value="reject" selected>Reject`;
       default: return `data-ids='${JSON.stringify({ id: req.id, rideId: req.ride_id })}'>
-                    <option class="success" value="pending" selected>Pending</option>
-                    <option class="warning" value="accept">Accept</option>
+                    <option class="warning" value="pending" selected>Pending</option>
+                    <option class="success" value="accept">Accept</option>
                     <option class="danger" value="reject">Reject`;
     }
   })(req.accepted)
@@ -101,21 +120,21 @@ define(['./common'], (common) => {
             .then(([statData, statRes]) => {
               if (!statRes.ok) {
                 // error status code handling
-                alert(JSON.stringify(statData));
+                common.errorHandler(statData, statRes.status);
               } else {
                 // notify user
-                const modal = document.getElementById('notif-modal');
-                const modalHeader = modal.querySelector('.modal-header');
-                modalHeader.innerHTML += `<p style='font-size:larger;color:green;'>
-                  Successfully updated!, you can still make changes up 
-                  until 6 hours before departure time
-                  </p>
-                `;
+                const message = document.getElementById('js-message');
+                message.textContent = `Successfully updated!, you can still make changes up 
+              until 6 hours before departure time`;
+                const modal = document.getElementById('myModal');
                 modal.style.setProperty('display', 'block');
                 setTimeout(() => {
                   modal.style.setProperty('display', 'none');
-                  modalHeader.removeChild(modalHeader.querySelector('p'));
-                }, 1600);
+                  message.textContent = '';
+                }, 2000);
+                // disable option "pending"
+                evt.target.querySelector('[value="pending"]')
+                  .setAttribute('disabled', true);
               }
             });
         };
@@ -125,5 +144,6 @@ define(['./common'], (common) => {
           stat.addEventListener('change', toggle);
         });
       }
-    });
+    })
+    .catch(error => common.errorHandler(error));
 });
