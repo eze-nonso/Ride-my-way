@@ -54,7 +54,7 @@
             </div>
             <p id='js-user'></p>
             <span>
-              <a href="./index.html">Logout</a>
+              <a href="./index.html?clear=1">Logout</a>
             </span>
           </div>
         </div>
@@ -83,7 +83,7 @@
       <div class="main-wrapper auth-wrapper">
         <div class="auth">
           <div class="content">
-      <div class ="offer-create">
+      <div class ="offer-create" id='js-offer'>
       
             <form action="./user-dashboard.html" id='js-ride'>
             <div class="form-input">
@@ -103,12 +103,12 @@
 
             <div class="form-input">
                 <label for="departuredate"> Departure Date</label>
-                <input type="date" required id="departuredate" name="departuredate" value="" />
+                <input type="date" required id="departuredate" value="" name="departuredate" />
               </div>
              
               <div class="form-input">
                   <label for="price"> Price</label>
-                  <input type="number" min="1" step="any" required id="price" name="price" value="" />
+                  <input type="number" min="1" step="any" maxlength="20" required id="price" name="price" value="" />
               </div>
 
               <div class="form-input">
@@ -133,21 +133,20 @@
                 </div>
                   <!-- </a> -->
                    <!-- The Modal -->
-              <div id="myModal" class="modal">
+              <!-- <div id="myModal" class="modal"> -->
   
                 <!-- Modal content -->
-                <div class="modal-header">
-                <div class="modal-content">
-                <div class="modal-body">
-                <span class="close">&times;</span>
-                </div>
-                <h3> Thank you, an offer has been created and a notification will be sent to you!</h3>
-                </div>
+                <!-- <div class="modal-header">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                    <span class="close">&times;</span>
+                    </div>
+                  </div>
                 <div class="modal-footer">
                 </div>
   
-              </div>		
-                          </div>
+                </div>		
+              </div> -->
         
           </form>
           
@@ -158,10 +157,15 @@
   </div>
     </div>
 </div>
-</body>
-  
   <div class="footer">
     <p>&copy; 2018. Nma Otutu. </p>
+  </div>
+  <div class="modal" id="notif-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+     
+    </div>
   </div>
   <script
     src='./js-client/amd/require.js' 

@@ -40,7 +40,7 @@ describe('Tests for get all requests for a ride - /api/version/users/rides/:ride
             if (error2) return done(error2);
             expect(res2).to.have.status(200);
             expect(res2.body).to.have.property('requests').an('array');
-            expect(res2.body.requests[0]).to.deep.include({ accepted: false, id: 1 });
+            expect(res2.body.requests[0]).to.deep.include({ accepted: null, id: 1 });
             return done();
           });
       });

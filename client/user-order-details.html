@@ -37,13 +37,13 @@
           <div class="dropdown">
             <a href="#" class="link circle circle-click">
               <div class="username-circle circle-click">
-                <p class="circle-click">D&#9663;</p>
+                <p class="circle-click">&#9663;</p>
               </div>
             </a>
             <div class="dropdown-content profile profile-dropdown-content" id="dropdown-content">
               <a href="./user-offer.html" id="user-offer">offer</a>
               <a href="./user-order-history.html" id="user-order-history">Order History</a>
-              <a href="./index.html" id="logout">Logout</a>
+              <a href="./index.html?clear=1" id="logout">Logout</a>
             </div>
           </div>
 
@@ -53,53 +53,37 @@
     </div>
   </div>
   <div class="main-wrapper">
-    <div class="order-confirmation">
-      <div>
-        <h2>Ride Details</h2><h3>Please ensure to be at the pick up
-                location five minutes before departure time.</h3>
-				</div>
-        <hr>
-        <div class="order-summary">
-            
-          <div class="control-btns">
-            
-            <h3> &nbsp;Driver Name: &nbsp; Mr. Idowu <br><br>&nbsp;Car Model: &nbsp;Toyota Corolla &nbsp;
-                <br><br>&nbsp;Car Model: &nbsp;AAA-668-CJ &nbsp;
-                <br><br>&nbsp;Available Seats: &nbsp;2 &nbsp;
-                <br><br>&nbsp;Pick Up Point:  &nbsp;Ojota Bustop &nbsp;
-                <br><br>&nbsp;Phone Number:  &nbsp;07062313448 &nbsp;
-                
+    <div class="order-confirmation" id="js-order-confirmation">
+      <progress
+        style="width: 100%;transform: translateY(50%);">
+      </progress>
+  </div>
+  </div>
 
-                &nbsp; &nbsp;  
-                </h3>
+
+  <div id="myModal" class="modal">
+  
+      <!-- Modal content -->
+      <div class="modal-header">
+        <div class="modal-content">
+          <div class="modal-body">
+          <span class="close">&times;</span>
           </div>
-          <hr>
-         
-        <div class="control-btns">
-          <a href="./user-dashboard.html">
-            <button class="btn btn-pri">back</button>
-          </a>
-          <a href="./user-dashboard.html">
-            <button class="btn btn-pri" id="confirm">Confirm</button>
-          </a>
-             <div id="myModal1" class="modal">
-						  <div class="modal-header">
-						  <div class="modal-content">
-							<span class="close">&times;</span>
-							<h3> Thank you, a request has been created and a notification will be sent to you!</h3>
-						  </div>
-                           </div>
-						</div>	     
+        <h3 id='js-message'></h3>
+        </div>
+      <div class="modal-footer">
       </div>
+
+      </div>		
     </div>
-  </div>
-  </div>
- 
  
       <div class="footer">
             <p>&copy; 2018. Nma Otutu</p>
           </div>
-          <script src="./js/dashboard.js"></script>
+          <script
+            src='./js-client/amd/require.js' 
+            data-main='./js-client/offer-detail'>
+          </script>
 </body>
 
 </html>

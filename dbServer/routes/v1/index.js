@@ -10,7 +10,8 @@ const {
   getRide, getRides,
   createRide, createRideRequest,
   signup, signin, getRequests,
-  replyRequest,
+  replyRequest, rideRequests,
+  deleteRide, deleteRequest,
 } = controllers;
 
 export default (app) => {
@@ -36,6 +37,12 @@ export default (app) => {
   app.get('/api/v1/users/rides/:rideId/requests', auth.verifyTokenMware, getRequests);
 
   app.put('/api/v1/users/rides/:rideId/requests/:requestId', auth.verifyTokenMware, replyRequest);
+
+  app.get('/api/v1/requests', auth.verifyTokenMware, rideRequests);
+
+  app.delete('/api/v1/rides/:rideId', auth.verifyTokenMware, deleteRide);
+
+  app.delete('/api/v1/requests/:requestId', auth.verifyTokenMware, deleteRequest);
 
   app.use(errorHandler);
 };

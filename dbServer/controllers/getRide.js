@@ -6,19 +6,27 @@ export default (req, res, next) => {
   }
   const rideId = +req.params.rideId;
   const query = {
-    text: 'select * from rides where rides.user_id is not null',
+    text: `select concat_ws(
+      ' ', firstname, lastname
+    ) as driver_name, rides.*, cars.make as car_make,
+    cars.model as car_model from 
+    rides inner join users on rides.id = ${rideId} and 
+    rides.user_id = users.id
+    and rides.deleted is not true
+    left outer join cars 
+    on users.car_id = cars.id
+    LIMIT 1`,
   };
   return db.query(query, (error, response) => {
     if (error) return next(error);
-    const rides = response.rows;
-    const rideOffer = rides.find(ride => ride.id === rideId);
-    if (!rideOffer) {
+    if (!response.rows.length) {
       const notFound = Error('Requested resource not found');
       notFound.status = 404;
       return next(notFound);
     }
+    const ride = response.rows[0];
     return res.status(200).json({
-      ride: rideOffer,
+      ride,
     });
   });
 };

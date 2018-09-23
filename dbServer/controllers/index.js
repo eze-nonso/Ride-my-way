@@ -14,6 +14,12 @@ import getRequests from './getRequests';
 
 import replyRequest from './replyRequest';
 
+import rideRequests from './rideRequests';
+
+import deleteRide from './deleteRide';
+
+import deleteRequest from './deleteRequest';
+
 export default {
   getRide,
   getRides,
@@ -23,4 +29,7 @@ export default {
   signin,
   getRequests,
   replyRequest,
+  rideRequests,
+  deleteRide,
+  deleteRequest,
 };
