@@ -29,39 +29,49 @@
       </div>
      
       <div class="content" id="one">
-        <form id='js-signup' method='POST'>
+        <form id='js-signup' method='POST' style='position:relative;'>
           <div class="form-input">
-              <label for="email">Email Address</label>
+              <label for="email"><span style='position:absolute;left:-15px;color:red;'>*</span>Email Address</label>
               <input type="email" required id="email" name="email" value=""  />
           </div>
 
           <div class="form-input">
-            <label for="firstname">First Name</label>
+            <label for="firstname"><span style='position:absolute;left:-15px;color:red;'>*</span>First Name</label>
             <input type="text" required id="firstname" name="firstname" value="" />
           </div>
 
           <div class="form-input">
-            <label for="lastname">Last Name</label>
+            <label for="lastname"><span style='position:absolute;left:-15px;color:red;'>*</span>Last Name</label>
             <input type="text" required id="lastname" name="lastname" value="" />
           </div>
 
           <div class="form-input">
-            <label for="city">City</label>
+            <label for="city"><span style='position:absolute;left:-15px;color:red;'>*</span>City</label>
             <input type="text" required id="city" name="city" value="" />
           </div>
 
           <div class="form-input">
-            <label for="state">State</label>
+            <label for="state"><span style='position:absolute;left:-15px;color:red;'>*</span>State</label>
             <input type="text" required id="state" name="state" value="" />
           </div>
 
           <div class="form-input">
-              <label for="number">Phone Number</label>
+              <label for="number"><span style='position:absolute;left:-15px;color:red;'>*</span>Phone Number</label>
               <input type="tel" required id="number" name="number" value="" />
             </div>
 
+            <div class="form-input">
+              <label for="carmodel">Car Model</label>
+              <input type="text" id="carmodel" name="carmodel" value="" />
+            </div>
+
+            <div class="form-input">
+              <label for="carmake">Car Make</label>
+              <input type="text" id="carmake" name="carmake" value="" />
+            </div>
+
           <div class="form-input">
-            <label for="password">Password</label>
+            <label for="password"><span style='position:absolute;left:-15px;color:red;'>*</span>Password</label>
             <input type="password" required id="password" name="password" value="" />
           </div>
 

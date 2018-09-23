@@ -8,11 +8,12 @@
     "lint-all": "eslint \"server/**/*.js\" app.js",
     "server": "node -r dotenv/config -r babel-register server/www.js",
     "start": "nodemon -x \"node -r dotenv/config -r babel-register ./server/www.js\"",
-    "drop:all": "node -r dotenv/config -r babel-register dbServer/models/drop"
+    "drop:all": "node -r dotenv/config -r babel-register dbServer/models/drop",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DinmaOtutu/RIDE-MY-WAY.git"
+    "url": "git+https://github.com/eze-nonso/Ride-my-way.git"
   },
   "author": "Otutu Dinma",
   "license": "ISC",

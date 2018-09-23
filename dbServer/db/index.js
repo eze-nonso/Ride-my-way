@@ -37,7 +37,7 @@ const asyncWrapper = {
     });
   },
   tablesCreated: (callback) => {
-    db.query('select from requests', (error) => {
+    db.query('select * from requests', (error) => {
       if (error) return callback(error);
       return callback();
     });

@@ -22,8 +22,9 @@ define(['./common'], (common) => {
   // today, 8 hours from now
   date = new Date((Date.now() + (1000 * 60 * 60 * 8)));
   const dateMin = formatDateToString(date);
-  const timeMin = (new Date(Date.now() + (1000 * 60 * 60 * 8)))
+  const timeStr = (new Date(Date.now() + (1000 * 60 * 60 * 8)))
     .toLocaleTimeString(undefined, { hour12: false });
+  const timeMin = timeStr.slice(0, timeStr.lastIndexOf(':'));
   dateInput.setAttribute('max', dateMax);
   dateInput.setAttribute('min', dateMin);
   timeInput.setAttribute('min', timeMin);

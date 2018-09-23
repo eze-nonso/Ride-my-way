@@ -144,7 +144,7 @@ define(['./common', './requestRide'], (common, requestRide) => {
           offersWrapper.querySelector('#js-order-summary').innerHTML += `
             ${exists ? `<span style="position:absolute;"><small class='success'>*requested</small>&emsp;<small ${status}</small></span>` : ''}
             ${+userId === +ride.user_id
-    ? `<span style="position:absolute;"><small class='success'>${requests.length}</small> <small>requests</small></span>`
+    ? `<span style="position:absolute;"><small class='success'>${requests.length}</small> <small>request(s)</small></span>`
     : ''}
             <div>
             <h3>${index + 1}.&nbsp;${ride.driver_name} | ${ride.city_from} TO ${ride.city_to} &nbsp; | PICKUP- ${ride.pickup_location}<BR>
